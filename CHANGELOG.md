@@ -2,7 +2,7 @@
 
 Studio : ORIKAMI.
 
-## 0.6
+## 1.00
 
 - Pilotes Turnip trouvés et installés automatiquement selon la puce graphique.
 - Extraction des jeux (NSP, XCI) vers `MASU/EXTRACTED/<identifiant>/`, avec progression, annulation et rapport.

@@ -42,7 +42,7 @@ Masu est la boîte à outils qui prépare et lance tes jeux dumpés depuis ta pr
 
 | Version | Ce qu'elle a apporté |
 |---|---|
-| 0.6 | Pilotes Turnip automatiques, extraction des jeux, aides manette, mises à jour dans l'appli. |
+| 1.00 | Première version publique : pilotes Turnip automatiques, extraction des jeux, aides manette, mises à jour dans l'appli. |
 
 ## ⚖️ À savoir
 
