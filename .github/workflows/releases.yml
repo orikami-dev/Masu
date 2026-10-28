@@ -32,8 +32,9 @@ jobs:
             v="$(echo "$f" | sed -E 's/^masu-//; s/\.apk$//')"
             echo "$v" | grep -qE '^[0-9]+(\.[0-9]+)+$' || continue
             echo "$EXISTING" | grep -qx "masu-v$v" && continue
+            T="Masu $v"; head -1 "docs/releases/masu-$v.md" | grep -q '⭐' && T="$T ⭐"
             notes="docs/releases/masu-$v.md"; [ -f "$notes" ] || { echo "Masu $v" > /tmp/n.md; notes=/tmp/n.md; }
-            gh release create "masu-v$v" "apk/$f" --title "Masu $v" --notes-file "$notes" --target main --latest
+            gh release create "masu-v$v" "apk/$f" --title "$T" --notes-file "$notes" --target main --latest
             echo "masu-v$v publiée"
           done
           for b in $BR; do git push origin --delete "$b"; echo "branche $b supprimée"; done

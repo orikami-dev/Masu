@@ -52,6 +52,7 @@ Seulement avec des jeux que tu possèdes. Ne partage jamais de clé, de fichier 
 
 | Version | Ce qu'elle a apporté |
 |---|---|
+| 1.05 ⭐ | Choix du jeu, mises à jour et DLC, « Vérifier le dump », signalement de compatibilité. |
 | 1.00 | Première version publique : pilotes Turnip automatiques, extraction des jeux, aides manette, mises à jour dans l'appli. |
 
 ## ⚖️ À savoir
