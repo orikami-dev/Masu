@@ -23,7 +23,7 @@ Masu est la boîte à outils qui prépare et lance tes jeux dumpés depuis ta pr
 
 | | |
 |---|---|
-| 🎮 **Bibliothèque de jeux** | [SMPJRecompAndroid](https://github.com/orikami-dev/SMPJRecompAndroid) (Super Mario Party Jamboree) est le premier jeu, d'autres suivront. |
+| 🎮 **Bibliothèque de jeux** | Tes jeux dumpés apparaissent avec leur nom et leur icône ; d'autres jeux seront pris en charge au fil des versions. |
 | 🔑 **Tes clés, tes jeux** | Tout reste sur ton appareil, dans le dossier `MASU`. |
 | 📤 **Extraction** | Vérification, déchiffrement et extraction de ton dump, avec progression et rapport. |
 | 🖼️ **Pilotes Turnip** | Recherche et installation automatiques des pilotes compatibles avec ta puce graphique. |
