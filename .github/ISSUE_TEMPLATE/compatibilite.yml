@@ -13,7 +13,7 @@ body:
     id: jeu
     attributes:
       label: Jeu
-      placeholder: Super Mario Party Jamboree
+      placeholder: Nom du jeu
     validations:
       required: true
   - type: input
@@ -42,7 +42,7 @@ body:
     id: version_runtime
     attributes:
       label: Version du runtime du jeu
-      description: Par exemple la version de l'APK Jamboree.
+      description: Version du runtime du jeu installé à part, s'il y en a un.
       placeholder: "0.58"
   - type: input
     id: appareil
