@@ -38,6 +38,16 @@ Masu est la boîte à outils qui prépare et lance tes jeux dumpés depuis ta pr
 - 🎨 Plusieurs thèmes aux couleurs ORIKAMI.
 - 🔒 Aucun fichier de jeu ni aucune clé dans ce dépôt.
 
+## 🧪 Tester avec nous
+
+Je ne peux pas tout tester seul : chaque retour aide Masu à reconnaître plus de jeux et plus de téléphones.
+
+- 📋 [Compatibilité des jeux](docs/COMPATIBILITE.md) : ce qui marche, sur quelle puce, avec quelle version.
+- ✍️ [Donner un retour](https://github.com/orikami-dev/Masu/issues/new?template=compatibilite.yml) : le bouton « Signaler » de Masu remplit le formulaire pour toi (compte GitHub gratuit requis). Tu relis avant d'envoyer, rien ne part sans toi.
+- 🧪 Versions bêta : publiées ici en « préversion » ; Masu les propose si tu actives le canal bêta dans ses réglages.
+
+Seulement avec des jeux que tu possèdes. Ne partage jamais de clé, de fichier de jeu, ni d'information personnelle (nom, nom d'appareil, chemin de dossier).
+
 ## ⭐ Mises à jour majeures
 
 | Version | Ce qu'elle a apporté |

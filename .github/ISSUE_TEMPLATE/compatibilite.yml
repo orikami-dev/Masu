@@ -1,0 +1,89 @@
+name: Compatibilité d'un jeu
+description: Dire si un jeu fonctionne dans Masu (le bouton « Donner mon avis » de Masu pré-remplit ce formulaire)
+title: "[Compatibilité] "
+labels: ["compatibilité"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci ! Ce retour est **public**. N'y mets jamais de clé, de fichier du jeu, ni d'information personnelle
+        (prénom, nom de machine, chemin de dossier, adresse). Le résultat est rangé tout seul dans
+        [la page de compatibilité](https://github.com/orikami-dev/Masu/blob/main/docs/COMPATIBILITE.md).
+  - type: input
+    id: jeu
+    attributes:
+      label: Jeu
+      placeholder: Super Mario Party Jamboree
+    validations:
+      required: true
+  - type: input
+    id: id_titre
+    attributes:
+      label: Identifiant de titre
+      description: 16 caractères, affiché par Masu dans la fiche du jeu.
+      placeholder: 0100XXXXXXXXXXXX
+    validations:
+      required: true
+  - type: input
+    id: version_jeu
+    attributes:
+      label: Version du jeu
+      placeholder: 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: version_masu
+    attributes:
+      label: Version de Masu
+      placeholder: "0.6"
+    validations:
+      required: true
+  - type: input
+    id: version_runtime
+    attributes:
+      label: Version du runtime du jeu
+      description: Par exemple la version de l'APK Jamboree.
+      placeholder: "0.58"
+  - type: input
+    id: appareil
+    attributes:
+      label: Puce et système
+      description: Seulement la puce graphique, le pilote et la version d'Android ou de Windows. Pas de nom d'appareil.
+      placeholder: Adreno 840 · Turnip · Android 16
+    validations:
+      required: true
+  - type: dropdown
+    id: resultat
+    attributes:
+      label: Résultat
+      options:
+        - Parfait
+        - Jouable
+        - Partiel
+        - Démarre puis plante
+        - Ne démarre pas
+    validations:
+      required: true
+  - type: input
+    id: jusqu_ou
+    attributes:
+      label: Jusqu'où ça va
+      placeholder: écran titre, menus, plateau, mini-jeux…
+  - type: textarea
+    id: notes
+    attributes:
+      label: Ce que tu as remarqué
+      placeholder: images/s, défauts d'affichage, son, manette…
+  - type: textarea
+    id: rapport
+    attributes:
+      label: Extrait du rapport (facultatif)
+      description: Masu masque déjà les clés. Relis avant d'envoyer.
+      render: text
+  - type: checkboxes
+    id: accord
+    attributes:
+      label: Vérification
+      options:
+        - label: Je n'ai mis ni clé, ni fichier du jeu, ni information personnelle.
+          required: true

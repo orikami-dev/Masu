@@ -1,0 +1,188 @@
+name: Compatibilité
+
+# Réécrit docs/COMPATIBILITE.md et docs/compatibilite.json à chaque retour « compatibilité ».
+# Le générateur est ici même : le dépôt ne contient pas de code de l'appli.
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled, deleted]
+  workflow_dispatch:
+
+concurrency:
+  group: compatibilite
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  page:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'compatibilité') || startsWith(github.event.issue.title, '[Compatibilité]') || github.event.action == 'unlabeled'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Construire la page
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - docs/COMPATIBILITE.md --json docs/compatibilite.json --depot "${{ github.repository }}" <<'PY'
+          import argparse
+          import json
+          import os
+          import re
+          import sys
+          import urllib.request
+
+          ETIQUETTE = "compatibilité"
+          TITRE = "[Compatibilité]"
+          RESULTATS = ["Parfait", "Jouable", "Partiel", "Démarre puis plante", "Ne démarre pas"]
+          PASTILLES = {"Parfait": "🟢", "Jouable": "🟢", "Partiel": "🟡", "Démarre puis plante": "🟠", "Ne démarre pas": "🔴"}
+          CHAMPS = {
+              "Jeu": "jeu",
+              "Identifiant de titre": "id_titre",
+              "Version du jeu": "version_jeu",
+              "Version de Masu": "version_masu",
+              "Version du runtime du jeu": "version_runtime",
+              "Puce et système": "appareil",
+              "Résultat": "resultat",
+              "Jusqu'où ça va": "jusqu_ou",
+          }
+          CLE = re.compile(r"(?i)(?<![0-9a-f])[0-9a-f]{32,}(?![0-9a-f])")
+
+
+          def lire_tickets(depot):
+              tickets, page = [], 1
+              jeton = os.environ.get("GITHUB_TOKEN")
+              while True:
+                  url = f"https://api.github.com/repos/{depot}/issues?state=all&per_page=100&page={page}"
+                  req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json"})
+                  if jeton:
+                      req.add_header("Authorization", f"Bearer {jeton}")
+                  with urllib.request.urlopen(req) as r:
+                      lot = json.load(r)
+                  tickets += [t for t in lot if "pull_request" not in t]
+                  if len(lot) < 100:
+                      return tickets
+                  page += 1
+
+
+          def champs(corps):
+              """Lit les sections « ### Titre » qu'un formulaire de ticket GitHub écrit dans le corps."""
+              valeurs = {}
+              for bloc in re.split(r"^### ", corps or "", flags=re.M)[1:]:
+                  titre, _, texte = bloc.partition("\n")
+                  cle = CHAMPS.get(titre.strip())
+                  texte = texte.strip()
+                  if cle and texte and texte != "_No response_":
+                      valeurs[cle] = CLE.sub("[clé masquée]", texte.splitlines()[0].strip())[:80]
+              return valeurs
+
+
+          def cellule(texte):
+              return (texte or "—").replace("|", "\\|")
+
+
+          def retenu(t):
+              # L'étiquette n'existe peut-être pas encore dans le dépôt : on reconnaît aussi le titre du formulaire.
+              noms = {e["name"] for e in t.get("labels", [])}
+              if ETIQUETTE not in noms and not t.get("title", "").startswith(TITRE):
+                  return False
+              return "invalide" not in noms and t.get("state_reason") != "not_planned"
+
+
+          def regrouper(tickets):
+              jeux = {}
+              for t in sorted(tickets, key=lambda t: t["created_at"]):
+                  if not retenu(t):
+                      continue
+                  v = champs(t.get("body"))
+                  if v.get("resultat") not in RESULTATS or not v.get("id_titre"):
+                      continue
+                  v["numero"], v["date"] = t["number"], t["created_at"][:10]
+                  jeux.setdefault(v["id_titre"].upper(), []).append(v)
+              return jeux
+
+
+          def resume(jeux):
+              return {
+                  id_titre: {k: r[-1].get(k) for k in ("jeu", "resultat", "version_jeu", "version_masu", "date")}
+                  | {"retours": len(r), "ticket": r[-1]["numero"]}
+                  for id_titre, r in sorted(jeux.items())
+              }
+
+
+          def construire(jeux, depot):
+
+              lignes = [
+                  "# Compatibilité des jeux",
+                  "",
+                  "Page mise à jour toute seule à partir des retours envoyés depuis Masu",
+                  f"([donner un retour](https://github.com/{depot}/issues/new?template=compatibilite.yml)).",
+                  "Ne modifie pas ce fichier à la main : il est réécrit à chaque nouveau retour.",
+                  "",
+                  "🟢 parfait ou jouable · 🟡 partiel · 🟠 démarre puis plante · 🔴 ne démarre pas",
+                  "",
+              ]
+              if not jeux:
+                  lignes += ["Aucun retour pour l'instant.", ""]
+              else:
+                  lignes += [
+                      "| Jeu | Identifiant | Dernier résultat | Version du jeu | Masu | Puce et système | Retours |",
+                      "|---|---|---|---|---|---|---|",
+                  ]
+                  for id_titre, retours in sorted(jeux.items(), key=lambda kv: kv[1][-1].get("jeu", "").lower()):
+                      d = retours[-1]
+                      lignes.append(
+                          f"| {cellule(d.get('jeu'))} | `{id_titre}` | {PASTILLES[d['resultat']]} {d['resultat']} "
+                          f"| {cellule(d.get('version_jeu'))} | {cellule(d.get('version_masu'))} | {cellule(d.get('appareil'))} "
+                          f"| {len(retours)} |"
+                      )
+                  lignes.append("")
+                  for id_titre, retours in sorted(jeux.items(), key=lambda kv: kv[1][-1].get("jeu", "").lower()):
+                      lignes += [f"## {cellule(retours[-1].get('jeu'))} (`{id_titre}`)", ""]
+                      lignes += ["| Date | Résultat | Jusqu'où | Jeu | Masu | Runtime | Puce et système | Retour |",
+                                 "|---|---|---|---|---|---|---|---|"]
+                      for r in reversed(retours):
+                          lignes.append(
+                              f"| {r['date']} | {PASTILLES[r['resultat']]} {r['resultat']} | {cellule(r.get('jusqu_ou'))} "
+                              f"| {cellule(r.get('version_jeu'))} | {cellule(r.get('version_masu'))} "
+                              f"| {cellule(r.get('version_runtime'))} | {cellule(r.get('appareil'))} | #{r['numero']} |"
+                          )
+                      lignes.append("")
+              return "\n".join(lignes)
+
+
+          def main():
+              p = argparse.ArgumentParser()
+              p.add_argument("sortie")
+              p.add_argument("--json", help="résumé lisible par Masu")
+              p.add_argument("--depot", default="orikami-dev/Masu")
+              p.add_argument("--tickets", help="fichier JSON de tickets, au lieu de l'API")
+              a = p.parse_args()
+              if a.tickets:
+                  with open(a.tickets, encoding="utf-8") as f:
+                      tickets = json.load(f)
+              else:
+                  tickets = lire_tickets(a.depot)
+              jeux = regrouper(tickets)
+              with open(a.sortie, "w", encoding="utf-8") as f:
+                  f.write(construire(jeux, a.depot))
+              if a.json:
+                  with open(a.json, "w", encoding="utf-8") as f:
+                      json.dump(resume(jeux), f, ensure_ascii=False, indent=2)
+                      f.write("\n")
+              print(f"{a.sortie} : {len(tickets)} ticket(s) lus", file=sys.stderr)
+
+
+          if __name__ == "__main__":
+              main()
+          PY
+      - name: Publier si la page a changé
+        run: |
+          git add docs/COMPATIBILITE.md docs/compatibilite.json
+          if git diff --cached --quiet; then echo "Rien de neuf."; exit 0; fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "Compatibilité : page mise à jour d'après les retours"
+          git push origin HEAD:main
