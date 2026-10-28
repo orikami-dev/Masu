@@ -1,5 +1,5 @@
 name: Compatibilité d'un jeu
-description: Dire si un jeu fonctionne dans Masu (le bouton « Donner mon avis » de Masu pré-remplit ce formulaire)
+description: Dire si un jeu fonctionne dans Masu (le bouton « Signaler la compatibilité » de Masu pré-remplit ce formulaire)
 title: "[Compatibilité] "
 labels: ["compatibilité"]
 body:
