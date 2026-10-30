@@ -44,7 +44,6 @@ jobs:
               "Identifiant de titre": "id_titre",
               "Version du jeu": "version_jeu",
               "Version de Masu": "version_masu",
-              "Version du runtime du jeu": "version_runtime",
               "Puce et système": "appareil",
               "Résultat": "resultat",
               "Jusqu'où ça va": "jusqu_ou",
@@ -142,13 +141,13 @@ jobs:
                   lignes.append("")
                   for id_titre, retours in sorted(jeux.items(), key=lambda kv: kv[1][-1].get("jeu", "").lower()):
                       lignes += [f"## {cellule(retours[-1].get('jeu'))} (`{id_titre}`)", ""]
-                      lignes += ["| Date | Résultat | Jusqu'où | Jeu | Masu | Runtime | Puce et système | Retour |",
-                                 "|---|---|---|---|---|---|---|---|"]
+                      lignes += ["| Date | Résultat | Jusqu'où | Jeu | Masu | Puce et système | Retour |",
+                                 "|---|---|---|---|---|---|---|"]
                       for r in reversed(retours):
                           lignes.append(
                               f"| {r['date']} | {PASTILLES[r['resultat']]} {r['resultat']} | {cellule(r.get('jusqu_ou'))} "
                               f"| {cellule(r.get('version_jeu'))} | {cellule(r.get('version_masu'))} "
-                              f"| {cellule(r.get('version_runtime'))} | {cellule(r.get('appareil'))} | #{r['numero']} |"
+                              f"| {cellule(r.get('appareil'))} | #{r['numero']} |"
                           )
                       lignes.append("")
               return "\n".join(lignes)

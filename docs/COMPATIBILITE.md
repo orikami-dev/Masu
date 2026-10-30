@@ -12,6 +12,6 @@ Ne modifie pas ce fichier à la main : il est réécrit à chaque nouveau retour
 
 ## Super Mario Party Jamboree (`0100965017338000`)
 
-| Date | Résultat | Jusqu'où | Jeu | Masu | Runtime | Puce et système | Retour |
-|---|---|---|---|---|---|---|---|
-| 2026-10-30 | 🟢 Jouable | écran titre, menus, plateau, mini-jeux | 1.0.0 | 1.11 | — | Adreno 840 · Driver Système · Android 17 | #4 |
+| Date | Résultat | Jusqu'où | Jeu | Masu | Puce et système | Retour |
+|---|---|---|---|---|---|---|
+| 2026-10-30 | 🟢 Jouable | écran titre, menus, plateau, mini-jeux | 1.0.0 | 1.11 | Adreno 840 · Driver Système · Android 17 | #4 |

@@ -39,12 +39,6 @@ body:
     validations:
       required: true
   - type: input
-    id: version_runtime
-    attributes:
-      label: Version du runtime du jeu
-      description: Version du runtime du jeu installé à part, s'il y en a un.
-      placeholder: "1.0"
-  - type: input
     id: appareil
     attributes:
       label: Puce et système
@@ -68,7 +62,7 @@ body:
     id: jusqu_ou
     attributes:
       label: Jusqu'où ça va
-      placeholder: écran titre, menus, plateau, mini-jeux…
+      placeholder: écran titre, menus, premier niveau, partie complète…
   - type: textarea
     id: notes
     attributes:
