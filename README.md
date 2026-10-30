@@ -47,6 +47,8 @@ Good to know:
 - The compressed `.nsz` and `.xcz` formats are not supported yet: decompress them to `.nsp` or `.xci` first.
 - Today Masu **extracts, verifies and analyzes** your games; no game launches from the public version yet. Your feedback helps prepare the next ones.
 - Masu updates are then installed from Settings > Updates.
+- The app follows your phone's language: English, or French if your phone is in French.
+- Optional: to install updates of your own games from a private GitHub repository, add a fine-grained token in Settings › Game updates.
 
 ## ✨ Highlights
 
@@ -69,6 +71,7 @@ Only with games you own. Never share a key, a game file or personal information 
 
 | Version | What it brought |
 |---|---|
+| 1.15 | English interface, game updates with your own GitHub token. |
 | 1.11 ⭐ | Updates and DLC from the game page, verified downloads, version switching, saved settings. |
 | 1.05 ⭐ | Game choice, updates and DLC, "Verify the dump", compatibility reports. |
 | 1.00 | First public version: automatic Turnip drivers, game extraction, controller hints, in-app updates. |

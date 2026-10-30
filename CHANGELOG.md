@@ -2,6 +2,13 @@
 
 Studio: ORIKAMI.
 
+## 1.15
+
+- English interface: Masu follows the phone's language (French or English); screens, messages, log and crash reports are translated.
+- Game updates with your own GitHub token in Settings › Game updates.
+- Easier-to-spot list of games to extract; game page shows the game version and the APK version.
+- "Report compatibility" now sends the result in English.
+
 ## 1.11 ⭐
 
 - Updates and DLC installed from the game page, shown under their game in the Extraction screen.
