@@ -71,6 +71,7 @@ Only with games you own. Never share a key, a game file or personal information 
 
 | Version | What it brought |
 |---|---|
+| 1.16 | Per-game apps built on the phone, clearer game picker. |
 | 1.15 | English interface, game updates with your own GitHub token. |
 | 1.11 ⭐ | Updates and DLC from the game page, verified downloads, version switching, saved settings. |
 | 1.05 ⭐ | Game choice, updates and DLC, "Verify the dump", compatibility reports. |

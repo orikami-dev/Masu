@@ -2,6 +2,11 @@
 
 Studio: ORIKAMI.
 
+## 1.16
+
+- Per-game apps: with an engine app installed, Masu builds and installs an app for an extracted game, right on the phone (signing key created on the device).
+- Extraction: the game list unfolds inside its frame instead of a small floating menu.
+
 ## 1.15
 
 - English interface: Masu follows the phone's language (French or English); screens, messages, log and crash reports are translated.
