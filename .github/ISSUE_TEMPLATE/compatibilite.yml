@@ -35,7 +35,7 @@ body:
     id: version_masu
     attributes:
       label: Version de Masu
-      placeholder: "0.6"
+      placeholder: "1.11"
     validations:
       required: true
   - type: input
@@ -43,13 +43,13 @@ body:
     attributes:
       label: Version du runtime du jeu
       description: Version du runtime du jeu installé à part, s'il y en a un.
-      placeholder: "0.58"
+      placeholder: "1.0"
   - type: input
     id: appareil
     attributes:
       label: Puce et système
       description: Seulement la puce graphique, le pilote et la version d'Android ou de Windows. Pas de nom d'appareil.
-      placeholder: Adreno 840 · Turnip · Android 16
+      placeholder: Adreno 7xx · Turnip · Android 15
     validations:
       required: true
   - type: dropdown

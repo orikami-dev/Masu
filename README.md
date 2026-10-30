@@ -31,6 +31,23 @@ Masu est la boîte à outils qui prépare et lance tes jeux dumpés depuis ta pr
 | 🔄 **Mises à jour** | Dans l'appli, depuis les releases de ce dépôt. |
 | 🪟 **Windows** | 🚧 Bientôt (coming soon). Pour l'instant : Android. |
 
+## 🚀 Démarrer (sans PC)
+
+Il te faut : un téléphone ou une tablette **Android 11 ou plus récent**, tes clés (`prod.keys` et `title.keys`) et tes jeux (`.nsp` ou `.xci`), dumpés depuis **ta propre console**. Masu ne fournit ni clé ni jeu, et n'explique pas comment en obtenir.
+
+1. Télécharge `masu-<version>.apk` depuis la [dernière version](https://github.com/orikami-dev/Masu/releases/latest) et ouvre-le. Android te demandera d'autoriser l'installation depuis ton navigateur ou ton gestionnaire de fichiers.
+2. Ouvre Masu et touche **Autoriser** : Android affiche « Accès à tous les fichiers », active-le pour Masu. Masu crée alors le dossier `MASU` à la racine du stockage, avec `KEYS`, `GAMES`, `EXTRACTED`, `IMAGES` et `DRIVERS`.
+3. Copie tes fichiers sur le téléphone (câble, lecteur de carte microSD USB‑C ou transfert habituel), puis :
+   - `prod.keys` et `title.keys` dans `MASU/KEYS` (si Masu les trouve ailleurs, dans Téléchargements par exemple, il propose de les ranger lui-même) ;
+   - le jeu dans `MASU/GAMES`, avec sa mise à jour et ses DLC à côté s'il en a.
+4. Onglet **Extraction** : touche **Actualiser**, choisis le jeu, puis **Extraire**. Masu vérifie, déchiffre et range le jeu dans `MASU/EXTRACTED/<identifiant de titre>/`, et il apparaît dans la Bibliothèque.
+
+Bon à savoir :
+
+- Les formats compressés `.nsz` et `.xcz` ne sont pas encore pris en charge : décompresse-les d'abord en `.nsp` ou `.xci`.
+- Aujourd'hui, Masu **extrait, vérifie et analyse** tes jeux ; aucun jeu ne se lance encore depuis la version publique. Tes retours servent à préparer les prochains.
+- Les mises à jour de Masu s'installent ensuite depuis Réglages > Mises à jour.
+
 ## ✨ Points forts
 
 - 🧰 Journaux détaillés et rapport de plantage prêt à envoyer, sans jamais de clé dedans.
@@ -52,11 +69,14 @@ Seulement avec des jeux que tu possèdes. Ne partage jamais de clé, de fichier 
 
 | Version | Ce qu'elle a apporté |
 |---|---|
+| 1.11 ⭐ | Mises à jour et DLC depuis la fiche, téléchargements vérifiés, changer de version, réglages sauvegardés. |
 | 1.05 ⭐ | Choix du jeu, mises à jour et DLC, « Vérifier le dump », signalement de compatibilité. |
 | 1.00 | Première version publique : pilotes Turnip automatiques, extraction des jeux, aides manette, mises à jour dans l'appli. |
 
 ## ⚖️ À savoir
 
 Usage personnel uniquement, avec des jeux que tu possèdes. Aucun fichier de jeu, aucune clé ni aucun code n'est publié dans ce dépôt.
+
+Masu est gratuite. Son code n'est pas publié ; les licences du code tiers qu'elle utilise sont dans l'appli (À propos > Licences).
 
 Non affilié à Nintendo. Les noms et marques cités appartiennent à leurs propriétaires.

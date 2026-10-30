@@ -2,6 +2,15 @@
 
 Studio : ORIKAMI.
 
+## 1.11 ⭐
+
+- Mises à jour et DLC installés depuis la fiche du jeu, affichés sous leur jeu dans l'écran Extraction.
+- Liste déroulante pour choisir le jeu à extraire ; version, poids et état des jeux sur les jaquettes.
+- Bouton « Signaler » sur la fiche des jeux non pris en charge.
+- Téléchargements vérifiés par empreinte SHA-256, versions validées et bloquées, « Changer de version ».
+- Réglages sauvegardés automatiquement.
+- Les fichiers de mise à jour et de DLC ne sont plus pris pour des jeux à extraire.
+
 ## 1.05 ⭐
 
 - Choix du jeu à extraire quand plusieurs copies sont dans GAMES, NSP comme XCI.
