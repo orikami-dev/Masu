@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: compatibilite
+  group: compatibility
   cancel-in-progress: false
 
 permissions:
@@ -27,7 +27,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 - docs/COMPATIBILITE.md --json docs/compatibilite.json --depot "${{ github.repository }}" <<'PY'
+          python3 - docs/COMPATIBILITE.md --json docs/compatibilite.json --repo "${{ github.repository }}" <<'PY'
           import argparse
           import json
           import os
@@ -35,8 +35,8 @@ jobs:
           import sys
           import urllib.request
 
-          ETIQUETTES = {"compatibility", "compatibilité"}
-          TITRES = ("[Compatibility]", "[Compatibilité]")
+          LABELS = {"compatibility", "compatibilité"}
+          TITLES = ("[Compatibility]", "[Compatibilité]")
           # Canonical values (kept for the app and docs/compatibilite.json) <- accepted spellings.
           CANON = {
               "Parfait": "Parfait", "Perfect": "Parfait",
@@ -45,11 +45,11 @@ jobs:
               "Démarre puis plante": "Démarre puis plante", "Starts then crashes": "Démarre puis plante",
               "Ne démarre pas": "Ne démarre pas", "Doesn't start": "Ne démarre pas",
           }
-          RESULTATS = ["Parfait", "Jouable", "Partiel", "Démarre puis plante", "Ne démarre pas"]
-          AFFICHAGE = {"Parfait": "Perfect", "Jouable": "Playable", "Partiel": "Partial",
+          RESULTS = ["Parfait", "Jouable", "Partiel", "Démarre puis plante", "Ne démarre pas"]
+          DISPLAY = {"Parfait": "Perfect", "Jouable": "Playable", "Partiel": "Partial",
                        "Démarre puis plante": "Starts then crashes", "Ne démarre pas": "Doesn't start"}
-          PASTILLES = {"Parfait": "🟢", "Jouable": "🟢", "Partiel": "🟡", "Démarre puis plante": "🟠", "Ne démarre pas": "🔴"}
-          CHAMPS = {
+          DOTS = {"Parfait": "🟢", "Jouable": "🟢", "Partiel": "🟡", "Démarre puis plante": "🟠", "Ne démarre pas": "🔴"}
+          FIELDS = {
               "Game": "jeu", "Jeu": "jeu",
               "Title ID": "id_titre", "Identifiant de titre": "id_titre",
               "Game version": "version_jeu", "Version du jeu": "version_jeu",
@@ -58,132 +58,132 @@ jobs:
               "Result": "resultat", "Résultat": "resultat",
               "How far it goes": "jusqu_ou", "Jusqu'où ça va": "jusqu_ou",
           }
-          CLE = re.compile(r"(?i)(?<![0-9a-f])[0-9a-f]{32,}(?![0-9a-f])")
+          KEY = re.compile(r"(?i)(?<![0-9a-f])[0-9a-f]{32,}(?![0-9a-f])")
 
 
-          def lire_tickets(depot):
-              tickets, page = [], 1
-              jeton = os.environ.get("GITHUB_TOKEN")
+          def read_issues(repo):
+              issues, page = [], 1
+              token = os.environ.get("GITHUB_TOKEN")
               while True:
-                  url = f"https://api.github.com/repos/{depot}/issues?state=all&per_page=100&page={page}"
+                  url = f"https://api.github.com/repos/{repo}/issues?state=all&per_page=100&page={page}"
                   req = urllib.request.Request(url, headers={"Accept": "application/vnd.github+json"})
-                  if jeton:
-                      req.add_header("Authorization", f"Bearer {jeton}")
+                  if token:
+                      req.add_header("Authorization", f"Bearer {token}")
                   with urllib.request.urlopen(req) as r:
-                      lot = json.load(r)
-                  tickets += [t for t in lot if "pull_request" not in t]
-                  if len(lot) < 100:
-                      return tickets
+                      batch = json.load(r)
+                  issues += [t for t in batch if "pull_request" not in t]
+                  if len(batch) < 100:
+                      return issues
                   page += 1
 
 
-          def champs(corps):
+          def fields(body):
               """Reads the "### Title" sections that a GitHub issue form writes in the body."""
-              valeurs = {}
-              for bloc in re.split(r"^### ", corps or "", flags=re.M)[1:]:
-                  titre, _, texte = bloc.partition("\n")
-                  cle = CHAMPS.get(titre.strip())
-                  texte = texte.strip()
-                  if cle and texte and texte != "_No response_":
-                      valeurs[cle] = CLE.sub("[key hidden]", texte.splitlines()[0].strip())[:80]
-              return valeurs
+              values = {}
+              for block in re.split(r"^### ", body or "", flags=re.M)[1:]:
+                  title, _, text = block.partition("\n")
+                  key = FIELDS.get(title.strip())
+                  text = text.strip()
+                  if key and text and text != "_No response_":
+                      values[key] = KEY.sub("[key hidden]", text.splitlines()[0].strip())[:80]
+              return values
 
 
-          def cellule(texte):
-              return (texte or "—").replace("|", "\\|")
+          def cell(text):
+              return (text or "—").replace("|", "\\|")
 
 
-          def retenu(t):
+          def is_kept(t):
               # The label may not exist in the repository yet: the form title is recognized too.
-              noms = {e["name"] for e in t.get("labels", [])}
-              if not (ETIQUETTES & noms) and not t.get("title", "").startswith(TITRES):
+              names = {e["name"] for e in t.get("labels", [])}
+              if not (LABELS & names) and not t.get("title", "").startswith(TITLES):
                   return False
-              return "invalide" not in noms and t.get("state_reason") != "not_planned"
+              return "invalide" not in names and t.get("state_reason") != "not_planned"
 
 
-          def regrouper(tickets):
-              jeux = {}
-              for t in sorted(tickets, key=lambda t: t["created_at"]):
-                  if not retenu(t):
+          def group(issues):
+              games = {}
+              for t in sorted(issues, key=lambda t: t["created_at"]):
+                  if not is_kept(t):
                       continue
-                  v = champs(t.get("body"))
+                  v = fields(t.get("body"))
                   v["resultat"] = CANON.get(v.get("resultat"), v.get("resultat"))
-                  if v.get("resultat") not in RESULTATS or not v.get("id_titre"):
+                  if v.get("resultat") not in RESULTS or not v.get("id_titre"):
                       continue
                   v["numero"], v["date"] = t["number"], t["created_at"][:10]
-                  jeux.setdefault(v["id_titre"].upper(), []).append(v)
-              return jeux
+                  games.setdefault(v["id_titre"].upper(), []).append(v)
+              return games
 
 
-          def resume(jeux):
+          def summary(games):
               return {
-                  id_titre: {k: r[-1].get(k) for k in ("jeu", "resultat", "version_jeu", "version_masu", "date")}
+                  title_id: {k: r[-1].get(k) for k in ("jeu", "resultat", "version_jeu", "version_masu", "date")}
                   | {"retours": len(r), "ticket": r[-1]["numero"]}
-                  for id_titre, r in sorted(jeux.items())
+                  for title_id, r in sorted(games.items())
               }
 
 
-          def construire(jeux, depot):
+          def build(games, repo):
 
-              lignes = [
+              lines = [
                   "# Game compatibility",
                   "",
                   "Page updated automatically from the reports sent from Masu",
-                  f"([send a report](https://github.com/{depot}/issues/new?template=compatibilite.yml)).",
+                  f"([send a report](https://github.com/{repo}/issues/new?template=compatibilite.yml)).",
                   "Do not edit this file by hand: it is rewritten on every new report.",
                   "",
                   "🟢 perfect or playable · 🟡 partial · 🟠 starts then crashes · 🔴 doesn't start",
                   "",
               ]
-              if not jeux:
-                  lignes += ["No report yet.", ""]
+              if not games:
+                  lines += ["No report yet.", ""]
               else:
-                  lignes += [
+                  lines += [
                       "| Game | ID | Latest result | Game version | Masu | Chip and system | Reports |",
                       "|---|---|---|---|---|---|---|",
                   ]
-                  for id_titre, retours in sorted(jeux.items(), key=lambda kv: kv[1][-1].get("jeu", "").lower()):
-                      d = retours[-1]
-                      lignes.append(
-                          f"| {cellule(d.get('jeu'))} | `{id_titre}` | {PASTILLES[d['resultat']]} {AFFICHAGE[d['resultat']]} "
-                          f"| {cellule(d.get('version_jeu'))} | {cellule(d.get('version_masu'))} | {cellule(d.get('appareil'))} "
-                          f"| {len(retours)} |"
+                  for title_id, reports in sorted(games.items(), key=lambda kv: kv[1][-1].get("jeu", "").lower()):
+                      d = reports[-1]
+                      lines.append(
+                          f"| {cell(d.get('jeu'))} | `{title_id}` | {DOTS[d['resultat']]} {DISPLAY[d['resultat']]} "
+                          f"| {cell(d.get('version_jeu'))} | {cell(d.get('version_masu'))} | {cell(d.get('appareil'))} "
+                          f"| {len(reports)} |"
                       )
-                  lignes.append("")
-                  for id_titre, retours in sorted(jeux.items(), key=lambda kv: kv[1][-1].get("jeu", "").lower()):
-                      lignes += [f"## {cellule(retours[-1].get('jeu'))} (`{id_titre}`)", ""]
-                      lignes += ["| Date | Result | How far | Game | Masu | Chip and system | Report |",
+                  lines.append("")
+                  for title_id, reports in sorted(games.items(), key=lambda kv: kv[1][-1].get("jeu", "").lower()):
+                      lines += [f"## {cell(reports[-1].get('jeu'))} (`{title_id}`)", ""]
+                      lines += ["| Date | Result | How far | Game | Masu | Chip and system | Report |",
                                  "|---|---|---|---|---|---|---|"]
-                      for r in reversed(retours):
-                          lignes.append(
-                              f"| {r['date']} | {PASTILLES[r['resultat']]} {AFFICHAGE[r['resultat']]} | {cellule(r.get('jusqu_ou'))} "
-                              f"| {cellule(r.get('version_jeu'))} | {cellule(r.get('version_masu'))} "
-                              f"| {cellule(r.get('appareil'))} | #{r['numero']} |"
+                      for r in reversed(reports):
+                          lines.append(
+                              f"| {r['date']} | {DOTS[r['resultat']]} {DISPLAY[r['resultat']]} | {cell(r.get('jusqu_ou'))} "
+                              f"| {cell(r.get('version_jeu'))} | {cell(r.get('version_masu'))} "
+                              f"| {cell(r.get('appareil'))} | #{r['numero']} |"
                           )
-                      lignes.append("")
-              return "\n".join(lignes)
+                      lines.append("")
+              return "\n".join(lines)
 
 
           def main():
               p = argparse.ArgumentParser()
-              p.add_argument("sortie")
+              p.add_argument("output")
               p.add_argument("--json", help="summary readable by Masu")
-              p.add_argument("--depot", default="orikami-dev/Masu")
-              p.add_argument("--tickets", help="JSON file of issues, instead of the API")
+              p.add_argument("--repo", default="orikami-dev/Masu")
+              p.add_argument("--issues", help="JSON file of issues, instead of the API")
               a = p.parse_args()
-              if a.tickets:
-                  with open(a.tickets, encoding="utf-8") as f:
-                      tickets = json.load(f)
+              if a.issues:
+                  with open(a.issues, encoding="utf-8") as f:
+                      issues = json.load(f)
               else:
-                  tickets = lire_tickets(a.depot)
-              jeux = regrouper(tickets)
-              with open(a.sortie, "w", encoding="utf-8") as f:
-                  f.write(construire(jeux, a.depot))
+                  issues = read_issues(a.repo)
+              games = group(issues)
+              with open(a.output, "w", encoding="utf-8") as f:
+                  f.write(build(games, a.repo))
               if a.json:
                   with open(a.json, "w", encoding="utf-8") as f:
-                      json.dump(resume(jeux), f, ensure_ascii=False, indent=2)
+                      json.dump(summary(games), f, ensure_ascii=False, indent=2)
                       f.write("\n")
-              print(f"{a.sortie}: {len(tickets)} issue(s) read", file=sys.stderr)
+              print(f"{a.output}: {len(issues)} issue(s) read", file=sys.stderr)
 
 
           if __name__ == "__main__":
