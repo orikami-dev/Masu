@@ -1,10 +1,10 @@
-Masu 1.00, première version publique, signée avec la clé fixe de Masu : désinstalle une fois l'ancienne Masu avant de l'installer (le dossier MASU est conservé ; seuls le thème et les réglages repartent à zéro). Les versions suivantes s'installeront par-dessus, depuis Réglages > Mises à jour.
+Masu 1.00, first public version, signed with Masu's fixed key: uninstall the old Masu once before installing it (the MASU folder is kept; only the theme and settings start over). Later versions will install over it, from Settings > Updates.
 
-- Pilotes GPU : « Rechercher une mise à jour Turnip » télécharge dans MASU/DRIVERS les derniers paquets Turnip (Mesa, licence MIT) compatibles avec le GPU détecté, depuis quatre sources communautaires ; le plus récent devient le pilote global (réglable). Les pilotes Qualcomm propriétaires ne sont jamais téléchargés. Une recherche a lieu au lancement si la vérification automatique est active.
-- Téléphones pliants récents : sur un Adreno 740 sous One UI, Masu préfère la variante Turnip dédiée à One UI ; les Adreno 750 et 830 reçoivent les paquets de leur famille.
-- Extraction : l'onglet Extraction vérifie, déchiffre et extrait le dump de MASU/GAMES vers MASU/EXTRACTED/<identifiant de titre> avec tes clés de MASU/KEYS, avec progression, annulation, reprise et rapport des vérifications.
-- Aides de touches (A, B, L/R…) et section Manettes affichées seulement quand une manette est branchée, détectée en direct.
-- Profil « Personnalisé » : les réglages du jeu se déplient juste en dessous, sans changer d'écran.
-- Barres d'état et de navigation assorties au thème clair ou sombre.
-- Mises à jour dans l'appli (Réglages > Mises à jour), icône d'Extraction (boîte ouverte et flèche).
-- À propos : bouton « Versions » (page des versions publiques) et textes complets des licences du code repris (« Licences »).
+- GPU drivers: "Check for a Turnip update" downloads into MASU/DRIVERS the latest Turnip packages (Mesa, MIT license) compatible with the detected GPU, from four community sources; the most recent becomes the global driver (adjustable). Proprietary Qualcomm drivers are never downloaded. A check runs at launch if automatic checking is on.
+- Recent foldable phones: on an Adreno 740 running One UI, Masu prefers the Turnip variant dedicated to One UI; Adreno 750 and 830 get the packages of their family.
+- Extraction: the Extraction tab verifies, decrypts and extracts the dump from MASU/GAMES to MASU/EXTRACTED/<title id> with your keys from MASU/KEYS, with progress, cancellation, resume and a verification report.
+- Button hints (A, B, L/R…) and Controllers section shown only when a controller is connected, detected live.
+- "Custom" profile: the game's settings unfold right below, without changing screen.
+- Status and navigation bars matched to the light or dark theme.
+- In-app updates (Settings > Updates), Extraction icon (open box and arrow).
+- About: "Versions" button (public releases page) and full license texts of the reused code ("Licenses").

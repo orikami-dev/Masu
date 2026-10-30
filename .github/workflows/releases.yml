@@ -1,7 +1,7 @@
-# Publie les releases de Masu (tag masu-v<version>) à partir des branches temporaires apk-masu-<version>.
-# Chaque branche contient un seul fichier masu-<version>.apk, signé par Orikami. La release prend ses notes dans docs/releases/masu-<version>.md.
-# Lancement : onglet Actions > « Publier les releases » > Run workflow.
-name: Publier les releases
+# Publishes Masu releases (tag masu-v<version>) from the temporary branches apk-masu-<version>.
+# Each branch holds a single file masu-<version>.apk, signed by Orikami. The release takes its notes from docs/releases/masu-<version>.md.
+# Run: Actions tab > "Publish releases" > Run workflow.
+name: Publish releases
 on:
   workflow_dispatch:
 concurrency: releases
@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Releases manquantes
+      - name: Missing releases
         run: |
           set -euo pipefail
           R="$GITHUB_REPOSITORY"
@@ -35,6 +35,6 @@ jobs:
             T="Masu $v"; head -1 "docs/releases/masu-$v.md" | grep -q '⭐' && T="$T ⭐"
             notes="docs/releases/masu-$v.md"; [ -f "$notes" ] || { echo "Masu $v" > /tmp/n.md; notes=/tmp/n.md; }
             gh release create "masu-v$v" "apk/$f" --title "$T" --notes-file "$notes" --target main --latest
-            echo "masu-v$v publiée"
+            echo "masu-v$v published"
           done
-          for b in $BR; do git push origin --delete "$b"; echo "branche $b supprimée"; done
+          for b in $BR; do git push origin --delete "$b"; echo "branch $b deleted"; done

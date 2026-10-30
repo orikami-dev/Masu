@@ -1,30 +1,30 @@
-# 📝 Journal des modifications
+# 📝 Changelog
 
-Studio : ORIKAMI.
+Studio: ORIKAMI.
 
 ## 1.11 ⭐
 
-- Mises à jour et DLC installés depuis la fiche du jeu, affichés sous leur jeu dans l'écran Extraction.
-- Liste déroulante pour choisir le jeu à extraire ; version, poids et état des jeux sur les jaquettes.
-- Bouton « Signaler » sur la fiche des jeux non pris en charge.
-- Téléchargements vérifiés par empreinte SHA-256, versions validées et bloquées, « Changer de version ».
-- Réglages sauvegardés automatiquement.
-- Les fichiers de mise à jour et de DLC ne sont plus pris pour des jeux à extraire.
+- Updates and DLC installed from the game page, shown under their game in the Extraction screen.
+- Drop-down list to choose the game to extract; version, size and status of games on the covers.
+- "Report" button on the page of unsupported games.
+- Downloads verified by SHA-256 fingerprint, versions validated and pinned, "Change version".
+- Settings saved automatically.
+- Update and DLC files are no longer mistaken for games to extract.
 
 ## 1.05 ⭐
 
-- Choix du jeu à extraire quand plusieurs copies sont dans GAMES, NSP comme XCI.
-- Jeux sans module extraits quand même, avec leur nom et leur icône.
-- Détection du moteur du jeu, « Vérifier le dump » et analyse des modules à l'extraction.
-- Mise à jour et DLC posés à côté du jeu pris en compte à l'extraction.
-- « Signaler la compatibilité » depuis la fiche d'un jeu, réglage « Recevoir les versions bêta », rapport des capacités graphiques.
-- « Préparer le jeu » traduit les shaders à l'avance ; le jeu extrait est lu directement depuis MASU.
-- Le moteur détecté est conservé après un redémarrage.
+- Choice of the game to extract when several copies are in GAMES, NSP as well as XCI.
+- Games without a module are still extracted, with their name and icon.
+- Game engine detection, "Verify the dump" and module analysis during extraction.
+- Update and DLC placed next to the game are taken into account during extraction.
+- "Report compatibility" from a game page, "Receive beta versions" setting, graphics capabilities report.
+- "Prepare the game" translates shaders in advance; the extracted game is read directly from MASU.
+- The detected engine is kept after a restart.
 
 ## 1.00
 
-- Pilotes Turnip trouvés et installés automatiquement selon la puce graphique.
-- Extraction des jeux (NSP, XCI) vers `MASU/EXTRACTED/<identifiant>/`, avec progression, annulation et rapport.
-- Aides de touches et section Manettes affichées seulement quand une manette est branchée.
-- Profil « Personnalisé » déplié en place ; barres système assorties au thème.
-- Mises à jour dans l'appli depuis les releases de ce dépôt.
+- Turnip drivers found and installed automatically according to the graphics chip.
+- Game extraction (NSP, XCI) to `MASU/EXTRACTED/<id>/`, with progress, cancellation and a report.
+- Button hints and Controllers section shown only when a controller is connected.
+- "Custom" profile expanded in place; system bars matched to the theme.
+- In-app updates from this repository's releases.

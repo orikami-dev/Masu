@@ -1,17 +1,17 @@
-⭐ Mise à jour majeure
+⭐ Major update
 
-## Nouveautés
-- Choix du jeu à extraire quand plusieurs copies sont dans GAMES, NSP comme XCI.
-- Jeux sans module : extraits quand même, affichés dans la bibliothèque avec leur nom et leur icône.
-- Détection du moteur du jeu (par exemple Bezel Engine).
-- « Vérifier le dump » : intégrité, version du jeu, comparaison avec une copie déjà vérifiée.
-- Mise à jour et DLC posés à côté du jeu dans GAMES pris en compte à l'extraction.
-- Analyse des modules du jeu à l'extraction.
-- « Signaler la compatibilité » depuis la fiche d'un jeu.
-- Réglage « Recevoir les versions bêta ».
-- Rapport des capacités graphiques dans Réglages, avec un bouton Copier.
-- « Préparer le jeu » : traduit les shaders à l'avance.
-- Le jeu extrait est lu directement depuis MASU, sans copie.
+## What's new
+- Choice of the game to extract when several copies are in GAMES, NSP as well as XCI.
+- Games without a module: still extracted, shown in the library with their name and icon.
+- Game engine detection (for example Bezel Engine).
+- "Verify the dump": integrity, game version, comparison with an already verified copy.
+- Update and DLC placed next to the game in GAMES are taken into account during extraction.
+- Analysis of the game's modules during extraction.
+- "Report compatibility" from a game page.
+- "Receive beta versions" setting.
+- Graphics capabilities report in Settings, with a Copy button.
+- "Prepare the game": translates shaders in advance.
+- The extracted game is read directly from MASU, without a copy.
 
-## Correctifs
-- Le moteur détecté est conservé après un redémarrage de Masu.
+## Fixes
+- The detected engine is kept after Masu restarts.

@@ -1,7 +1,7 @@
-name: Compatibilité
+name: Compatibility
 
-# Réécrit docs/COMPATIBILITE.md et docs/compatibilite.json à chaque retour « compatibilité ».
-# Le générateur est ici même : le dépôt ne contient pas de code de l'appli.
+# Rewrites docs/COMPATIBILITE.md and docs/compatibilite.json on every "compatibility" report.
+# The generator is right here: the repository contains no app code.
 on:
   issues:
     types: [opened, edited, closed, reopened, labeled, unlabeled, deleted]
@@ -17,13 +17,13 @@ permissions:
 
 jobs:
   page:
-    if: github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'compatibilité') || startsWith(github.event.issue.title, '[Compatibilité]') || github.event.action == 'unlabeled'
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'compatibility') || contains(github.event.issue.labels.*.name, 'compatibilité') || startsWith(github.event.issue.title, '[Compatibility]') || startsWith(github.event.issue.title, '[Compatibilité]') || github.event.action == 'unlabeled'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Construire la page
+      - name: Build the page
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -35,18 +35,28 @@ jobs:
           import sys
           import urllib.request
 
-          ETIQUETTE = "compatibilité"
-          TITRE = "[Compatibilité]"
+          ETIQUETTES = {"compatibility", "compatibilité"}
+          TITRES = ("[Compatibility]", "[Compatibilité]")
+          # Canonical values (kept for the app and docs/compatibilite.json) <- accepted spellings.
+          CANON = {
+              "Parfait": "Parfait", "Perfect": "Parfait",
+              "Jouable": "Jouable", "Playable": "Jouable",
+              "Partiel": "Partiel", "Partial": "Partiel",
+              "Démarre puis plante": "Démarre puis plante", "Starts then crashes": "Démarre puis plante",
+              "Ne démarre pas": "Ne démarre pas", "Doesn't start": "Ne démarre pas",
+          }
           RESULTATS = ["Parfait", "Jouable", "Partiel", "Démarre puis plante", "Ne démarre pas"]
+          AFFICHAGE = {"Parfait": "Perfect", "Jouable": "Playable", "Partiel": "Partial",
+                       "Démarre puis plante": "Starts then crashes", "Ne démarre pas": "Doesn't start"}
           PASTILLES = {"Parfait": "🟢", "Jouable": "🟢", "Partiel": "🟡", "Démarre puis plante": "🟠", "Ne démarre pas": "🔴"}
           CHAMPS = {
-              "Jeu": "jeu",
-              "Identifiant de titre": "id_titre",
-              "Version du jeu": "version_jeu",
-              "Version de Masu": "version_masu",
-              "Puce et système": "appareil",
-              "Résultat": "resultat",
-              "Jusqu'où ça va": "jusqu_ou",
+              "Game": "jeu", "Jeu": "jeu",
+              "Title ID": "id_titre", "Identifiant de titre": "id_titre",
+              "Game version": "version_jeu", "Version du jeu": "version_jeu",
+              "Masu version": "version_masu", "Version de Masu": "version_masu",
+              "Chip and system": "appareil", "Puce et système": "appareil",
+              "Result": "resultat", "Résultat": "resultat",
+              "How far it goes": "jusqu_ou", "Jusqu'où ça va": "jusqu_ou",
           }
           CLE = re.compile(r"(?i)(?<![0-9a-f])[0-9a-f]{32,}(?![0-9a-f])")
 
@@ -68,14 +78,14 @@ jobs:
 
 
           def champs(corps):
-              """Lit les sections « ### Titre » qu'un formulaire de ticket GitHub écrit dans le corps."""
+              """Reads the "### Title" sections that a GitHub issue form writes in the body."""
               valeurs = {}
               for bloc in re.split(r"^### ", corps or "", flags=re.M)[1:]:
                   titre, _, texte = bloc.partition("\n")
                   cle = CHAMPS.get(titre.strip())
                   texte = texte.strip()
                   if cle and texte and texte != "_No response_":
-                      valeurs[cle] = CLE.sub("[clé masquée]", texte.splitlines()[0].strip())[:80]
+                      valeurs[cle] = CLE.sub("[key hidden]", texte.splitlines()[0].strip())[:80]
               return valeurs
 
 
@@ -84,9 +94,9 @@ jobs:
 
 
           def retenu(t):
-              # L'étiquette n'existe peut-être pas encore dans le dépôt : on reconnaît aussi le titre du formulaire.
+              # The label may not exist in the repository yet: the form title is recognized too.
               noms = {e["name"] for e in t.get("labels", [])}
-              if ETIQUETTE not in noms and not t.get("title", "").startswith(TITRE):
+              if not (ETIQUETTES & noms) and not t.get("title", "").startswith(TITRES):
                   return False
               return "invalide" not in noms and t.get("state_reason") != "not_planned"
 
@@ -97,6 +107,7 @@ jobs:
                   if not retenu(t):
                       continue
                   v = champs(t.get("body"))
+                  v["resultat"] = CANON.get(v.get("resultat"), v.get("resultat"))
                   if v.get("resultat") not in RESULTATS or not v.get("id_titre"):
                       continue
                   v["numero"], v["date"] = t["number"], t["created_at"][:10]
@@ -115,37 +126,37 @@ jobs:
           def construire(jeux, depot):
 
               lignes = [
-                  "# Compatibilité des jeux",
+                  "# Game compatibility",
                   "",
-                  "Page mise à jour toute seule à partir des retours envoyés depuis Masu",
-                  f"([donner un retour](https://github.com/{depot}/issues/new?template=compatibilite.yml)).",
-                  "Ne modifie pas ce fichier à la main : il est réécrit à chaque nouveau retour.",
+                  "Page updated automatically from the reports sent from Masu",
+                  f"([send a report](https://github.com/{depot}/issues/new?template=compatibilite.yml)).",
+                  "Do not edit this file by hand: it is rewritten on every new report.",
                   "",
-                  "🟢 parfait ou jouable · 🟡 partiel · 🟠 démarre puis plante · 🔴 ne démarre pas",
+                  "🟢 perfect or playable · 🟡 partial · 🟠 starts then crashes · 🔴 doesn't start",
                   "",
               ]
               if not jeux:
-                  lignes += ["Aucun retour pour l'instant.", ""]
+                  lignes += ["No report yet.", ""]
               else:
                   lignes += [
-                      "| Jeu | Identifiant | Dernier résultat | Version du jeu | Masu | Puce et système | Retours |",
+                      "| Game | ID | Latest result | Game version | Masu | Chip and system | Reports |",
                       "|---|---|---|---|---|---|---|",
                   ]
                   for id_titre, retours in sorted(jeux.items(), key=lambda kv: kv[1][-1].get("jeu", "").lower()):
                       d = retours[-1]
                       lignes.append(
-                          f"| {cellule(d.get('jeu'))} | `{id_titre}` | {PASTILLES[d['resultat']]} {d['resultat']} "
+                          f"| {cellule(d.get('jeu'))} | `{id_titre}` | {PASTILLES[d['resultat']]} {AFFICHAGE[d['resultat']]} "
                           f"| {cellule(d.get('version_jeu'))} | {cellule(d.get('version_masu'))} | {cellule(d.get('appareil'))} "
                           f"| {len(retours)} |"
                       )
                   lignes.append("")
                   for id_titre, retours in sorted(jeux.items(), key=lambda kv: kv[1][-1].get("jeu", "").lower()):
                       lignes += [f"## {cellule(retours[-1].get('jeu'))} (`{id_titre}`)", ""]
-                      lignes += ["| Date | Résultat | Jusqu'où | Jeu | Masu | Puce et système | Retour |",
+                      lignes += ["| Date | Result | How far | Game | Masu | Chip and system | Report |",
                                  "|---|---|---|---|---|---|---|"]
                       for r in reversed(retours):
                           lignes.append(
-                              f"| {r['date']} | {PASTILLES[r['resultat']]} {r['resultat']} | {cellule(r.get('jusqu_ou'))} "
+                              f"| {r['date']} | {PASTILLES[r['resultat']]} {AFFICHAGE[r['resultat']]} | {cellule(r.get('jusqu_ou'))} "
                               f"| {cellule(r.get('version_jeu'))} | {cellule(r.get('version_masu'))} "
                               f"| {cellule(r.get('appareil'))} | #{r['numero']} |"
                           )
@@ -156,9 +167,9 @@ jobs:
           def main():
               p = argparse.ArgumentParser()
               p.add_argument("sortie")
-              p.add_argument("--json", help="résumé lisible par Masu")
+              p.add_argument("--json", help="summary readable by Masu")
               p.add_argument("--depot", default="orikami-dev/Masu")
-              p.add_argument("--tickets", help="fichier JSON de tickets, au lieu de l'API")
+              p.add_argument("--tickets", help="JSON file of issues, instead of the API")
               a = p.parse_args()
               if a.tickets:
                   with open(a.tickets, encoding="utf-8") as f:
@@ -172,16 +183,16 @@ jobs:
                   with open(a.json, "w", encoding="utf-8") as f:
                       json.dump(resume(jeux), f, ensure_ascii=False, indent=2)
                       f.write("\n")
-              print(f"{a.sortie} : {len(tickets)} ticket(s) lus", file=sys.stderr)
+              print(f"{a.sortie}: {len(tickets)} issue(s) read", file=sys.stderr)
 
 
           if __name__ == "__main__":
               main()
           PY
-      - name: Publier si la page a changé
+      - name: Publish if the page changed
         run: |
           git add docs/COMPATIBILITE.md docs/compatibilite.json
-          if git diff --cached --quiet; then echo "Rien de neuf."; exit 0; fi
+          if git diff --cached --quiet; then echo "Nothing new."; exit 0; fi
           git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -m "Compatibilité : page mise à jour d'après les retours"
+            commit -m "Compatibility: page updated from reports"
           git push origin HEAD:main

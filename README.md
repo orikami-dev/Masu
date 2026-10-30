@@ -3,80 +3,80 @@
 </p>
 
 <h1 align="center">Masu</h1>
-<p align="center">par ORIKAMI</p>
+<p align="center">by ORIKAMI</p>
 
 <p align="center"><i>Bring your own dumped games to Android, with Windows coming soon. A local toolbox to import your keys and game dumps, extract, run and debug native ports, with detailed logs and one-tap crash reports. No game files, keys or source code are published here.</i></p>
 
 <p align="center">
-  <a href="https://github.com/orikami-dev/masu/releases/latest">⬇️ <b>Télécharger la dernière version</b></a>
+  <a href="https://github.com/orikami-dev/masu/releases/latest">⬇️ <b>Download the latest version</b></a>
   ·
-  <a href="https://github.com/orikami-dev/masu/releases">📦 Toutes les versions</a>
+  <a href="https://github.com/orikami-dev/masu/releases">📦 All versions</a>
   ·
-  <a href="CHANGELOG.md">📝 Journal des versions</a>
+  <a href="CHANGELOG.md">📝 Changelog</a>
 </p>
 
 ---
 
-## 📦 Le projet
+## 📦 The project
 
-Masu est la boîte à outils qui prépare et lance tes jeux dumpés depuis ta propre console : tu y renseignes tes clés et tes jeux, et Masu rejoue en local tout le processus (extraction, analyse, lancement), avec des journaux détaillés pour déboguer. **Ce dépôt ne publie que les notes de version et l'APK de chaque version.** Il ne contient ni code, ni donnée de jeu, ni clé.
+Masu is the toolbox that prepares and launches games dumped from your own console: you enter your keys and your games, and Masu replays the whole process locally (extraction, analysis, launch), with detailed logs for debugging. **This repository only publishes release notes and the APK of each version.** It contains no code, no game data and no keys.
 
 | | |
 |---|---|
-| 🎮 **Bibliothèque de jeux** | Tes jeux dumpés apparaissent avec leur nom et leur icône ; d'autres jeux seront pris en charge au fil des versions. |
-| 🔑 **Tes clés, tes jeux** | Tout reste sur ton appareil, dans le dossier `MASU`. |
-| 📤 **Extraction** | Vérification, déchiffrement et extraction de ton dump, avec progression et rapport. |
-| 🖼️ **Pilotes Turnip** | Recherche et installation automatiques des pilotes compatibles avec ta puce graphique. |
-| 🕹️ **Manettes** | Aides de touches et détection des manettes branchées. |
-| 🔄 **Mises à jour** | Dans l'appli, depuis les releases de ce dépôt. |
-| 🪟 **Windows** | 🚧 Bientôt (coming soon). Pour l'instant : Android. |
+| 🎮 **Game library** | Your dumped games appear with their name and icon; more games will be supported over time. |
+| 🔑 **Your keys, your games** | Everything stays on your device, in the `MASU` folder. |
+| 📤 **Extraction** | Verification, decryption and extraction of your dump, with progress and a report. |
+| 🖼️ **Turnip drivers** | Automatic search and installation of drivers compatible with your graphics chip. |
+| 🕹️ **Controllers** | Button hints and detection of connected controllers. |
+| 🔄 **Updates** | In the app, from this repository's releases. |
+| 🪟 **Windows** | 🚧 Coming soon. For now: Android. |
 
-## 🚀 Démarrer (sans PC)
+## 🚀 Getting started (no PC needed)
 
-Il te faut : un téléphone ou une tablette **Android 11 ou plus récent**, tes clés (`prod.keys` et `title.keys`) et tes jeux (`.nsp` ou `.xci`), dumpés depuis **ta propre console**. Masu ne fournit ni clé ni jeu, et n'explique pas comment en obtenir.
+You need: an **Android 11 or newer** phone or tablet, your keys (`prod.keys` and `title.keys`) and your games (`.nsp` or `.xci`), dumped from **your own console**. Masu provides neither keys nor games, and does not explain how to get them.
 
-1. Télécharge `masu-<version>.apk` depuis la [dernière version](https://github.com/orikami-dev/Masu/releases/latest) et ouvre-le. Android te demandera d'autoriser l'installation depuis ton navigateur ou ton gestionnaire de fichiers.
-2. Ouvre Masu et touche **Autoriser** : Android affiche « Accès à tous les fichiers », active-le pour Masu. Masu crée alors le dossier `MASU` à la racine du stockage, avec `KEYS`, `GAMES`, `EXTRACTED`, `IMAGES` et `DRIVERS`.
-3. Copie tes fichiers sur le téléphone (câble, lecteur de carte microSD USB‑C ou transfert habituel), puis :
-   - `prod.keys` et `title.keys` dans `MASU/KEYS` (si Masu les trouve ailleurs, dans Téléchargements par exemple, il propose de les ranger lui-même) ;
-   - le jeu dans `MASU/GAMES`, avec sa mise à jour et ses DLC à côté s'il en a.
-4. Onglet **Extraction** : touche **Actualiser**, choisis le jeu, puis **Extraire**. Masu vérifie, déchiffre et range le jeu dans `MASU/EXTRACTED/<identifiant de titre>/`, et il apparaît dans la Bibliothèque.
+1. Download `masu-<version>.apk` from the [latest release](https://github.com/orikami-dev/Masu/releases/latest) and open it. Android will ask you to allow installation from your browser or file manager.
+2. Open Masu and tap **Allow**: Android shows "All files access"; turn it on for Masu. Masu then creates the `MASU` folder at the root of the storage, with `KEYS`, `GAMES`, `EXTRACTED`, `IMAGES` and `DRIVERS`.
+3. Copy your files to the phone (cable, USB-C microSD reader or your usual transfer), then:
+   - `prod.keys` and `title.keys` into `MASU/KEYS` (if Masu finds them elsewhere, in Downloads for example, it offers to move them for you);
+   - the game into `MASU/GAMES`, with its update and DLC next to it if it has any.
+4. **Extraction** tab: tap **Refresh**, choose the game, then **Extract**. Masu verifies, decrypts and stores the game in `MASU/EXTRACTED/<title id>/`, and it appears in the Library.
 
-Bon à savoir :
+Good to know:
 
-- Les formats compressés `.nsz` et `.xcz` ne sont pas encore pris en charge : décompresse-les d'abord en `.nsp` ou `.xci`.
-- Aujourd'hui, Masu **extrait, vérifie et analyse** tes jeux ; aucun jeu ne se lance encore depuis la version publique. Tes retours servent à préparer les prochains.
-- Les mises à jour de Masu s'installent ensuite depuis Réglages > Mises à jour.
+- The compressed `.nsz` and `.xcz` formats are not supported yet: decompress them to `.nsp` or `.xci` first.
+- Today Masu **extracts, verifies and analyzes** your games; no game launches from the public version yet. Your feedback helps prepare the next ones.
+- Masu updates are then installed from Settings > Updates.
 
-## ✨ Points forts
+## ✨ Highlights
 
-- 🧰 Journaux détaillés et rapport de plantage prêt à envoyer, sans jamais de clé dedans.
-- 📱 Pensé pour les pliants : plein écran, paysage, pliage sans redémarrage.
-- 🎨 Plusieurs thèmes aux couleurs ORIKAMI.
-- 🔒 Aucun fichier de jeu ni aucune clé dans ce dépôt.
+- 🧰 Detailed logs and a ready-to-send crash report, never containing a key.
+- 📱 Made for foldables: full screen, landscape, folding without restart.
+- 🎨 Several themes in ORIKAMI colors.
+- 🔒 No game file and no key in this repository.
 
-## 🧪 Tester avec nous
+## 🧪 Test with us
 
-Je ne peux pas tout tester seul : chaque retour aide Masu à reconnaître plus de jeux et plus de téléphones.
+I can't test everything alone: every report helps Masu recognize more games and more phones.
 
-- 📋 [Compatibilité des jeux](docs/COMPATIBILITE.md) : ce qui marche, sur quelle puce, avec quelle version.
-- ✍️ [Donner un retour](https://github.com/orikami-dev/Masu/issues/new?template=compatibilite.yml) : le bouton « Signaler la compatibilité » de Masu remplit le formulaire pour toi (compte GitHub gratuit requis). Tu relis avant d'envoyer, rien ne part sans toi.
-- 🧪 Versions bêta : publiées ici en « préversion » ; Masu les propose si tu actives le canal bêta dans ses réglages.
+- 📋 [Game compatibility](docs/COMPATIBILITE.md): what works, on which chip, with which version.
+- ✍️ [Send a report](https://github.com/orikami-dev/Masu/issues/new?template=compatibilite.yml): the "Report compatibility" button in Masu fills in the form for you (free GitHub account required). You review it before sending; nothing leaves without you.
+- 🧪 Beta versions: published here as "pre-release"; Masu offers them if you turn on the beta channel in its settings.
 
-Seulement avec des jeux que tu possèdes. Ne partage jamais de clé, de fichier de jeu, ni d'information personnelle (nom, nom d'appareil, chemin de dossier).
+Only with games you own. Never share a key, a game file or personal information (name, device name, folder path).
 
-## ⭐ Mises à jour majeures
+## ⭐ Major updates
 
-| Version | Ce qu'elle a apporté |
+| Version | What it brought |
 |---|---|
-| 1.11 ⭐ | Mises à jour et DLC depuis la fiche, téléchargements vérifiés, changer de version, réglages sauvegardés. |
-| 1.05 ⭐ | Choix du jeu, mises à jour et DLC, « Vérifier le dump », signalement de compatibilité. |
-| 1.00 | Première version publique : pilotes Turnip automatiques, extraction des jeux, aides manette, mises à jour dans l'appli. |
+| 1.11 ⭐ | Updates and DLC from the game page, verified downloads, version switching, saved settings. |
+| 1.05 ⭐ | Game choice, updates and DLC, "Verify the dump", compatibility reports. |
+| 1.00 | First public version: automatic Turnip drivers, game extraction, controller hints, in-app updates. |
 
-## ⚖️ À savoir
+## ⚖️ Good to know
 
-Usage personnel uniquement, avec des jeux que tu possèdes. Aucun fichier de jeu, aucune clé ni aucun code n'est publié dans ce dépôt.
+Personal use only, with games you own. No game file, key or code is published in this repository.
 
-Masu est gratuite. Son code n'est pas publié ; les licences du code tiers qu'elle utilise sont dans l'appli (À propos > Licences).
+Masu is free. Its code is not published; the licenses of the third-party code it uses are in the app (About > Licenses).
 
-Non affilié à Nintendo. Les noms et marques cités appartiennent à leurs propriétaires.
+Not affiliated with Nintendo. The names and trademarks mentioned belong to their owners.

@@ -1,83 +1,83 @@
-name: Compatibilité d'un jeu
-description: Dire si un jeu fonctionne dans Masu (le bouton « Signaler la compatibilité » de Masu pré-remplit ce formulaire)
-title: "[Compatibilité] "
-labels: ["compatibilité"]
+name: Game compatibility
+description: Tell whether a game works in Masu (the "Report compatibility" button in Masu pre-fills this form)
+title: "[Compatibility] "
+labels: ["compatibility"]
 body:
   - type: markdown
     attributes:
       value: |
-        Merci ! Ce retour est **public**. N'y mets jamais de clé, de fichier du jeu, ni d'information personnelle
-        (prénom, nom de machine, chemin de dossier, adresse). Le résultat est rangé tout seul dans
-        [la page de compatibilité](https://github.com/orikami-dev/Masu/blob/main/docs/COMPATIBILITE.md).
+        Thank you! This report is **public**. Never put a key, a game file or personal information in it
+        (first name, machine name, folder path, address). The result is filed automatically on
+        [the compatibility page](https://github.com/orikami-dev/Masu/blob/main/docs/COMPATIBILITE.md).
   - type: input
     id: jeu
     attributes:
-      label: Jeu
-      placeholder: Nom du jeu
+      label: Game
+      placeholder: Game name
     validations:
       required: true
   - type: input
     id: id_titre
     attributes:
-      label: Identifiant de titre
-      description: 16 caractères, affiché par Masu dans la fiche du jeu.
+      label: Title ID
+      description: 16 characters, shown by Masu on the game page.
       placeholder: 0100XXXXXXXXXXXX
     validations:
       required: true
   - type: input
     id: version_jeu
     attributes:
-      label: Version du jeu
+      label: Game version
       placeholder: 1.0.0
     validations:
       required: true
   - type: input
     id: version_masu
     attributes:
-      label: Version de Masu
+      label: Masu version
       placeholder: "1.11"
     validations:
       required: true
   - type: input
     id: appareil
     attributes:
-      label: Puce et système
-      description: Seulement la puce graphique, le pilote et la version d'Android ou de Windows. Pas de nom d'appareil.
+      label: Chip and system
+      description: Only the graphics chip, the driver and the Android or Windows version. No device name.
       placeholder: Adreno 7xx - System/Turnip - Android 1x
     validations:
       required: true
   - type: dropdown
     id: resultat
     attributes:
-      label: Résultat
+      label: Result
       options:
-        - Parfait
-        - Jouable
-        - Partiel
-        - Démarre puis plante
-        - Ne démarre pas
+        - Perfect
+        - Playable
+        - Partial
+        - Starts then crashes
+        - Doesn't start
     validations:
       required: true
   - type: input
     id: jusqu_ou
     attributes:
-      label: Jusqu'où ça va
-      placeholder: écran titre, menus, premier niveau, partie complète…
+      label: How far it goes
+      placeholder: title screen, menus, first level, full playthrough…
   - type: textarea
     id: notes
     attributes:
-      label: Ce que tu as remarqué
-      placeholder: images/s, défauts d'affichage, son, manette…
+      label: What you noticed
+      placeholder: frames per second, display glitches, sound, controller…
   - type: textarea
     id: rapport
     attributes:
-      label: Extrait du rapport (facultatif)
-      description: Masu masque déjà les clés. Relis avant d'envoyer.
+      label: Report excerpt (optional)
+      description: Masu already masks keys. Review before sending.
       render: text
   - type: checkboxes
     id: accord
     attributes:
-      label: Vérification
+      label: Check
       options:
-        - label: Je n'ai mis ni clé, ni fichier du jeu, ni information personnelle.
+        - label: I put no key, no game file and no personal information.
           required: true
