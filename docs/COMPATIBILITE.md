@@ -6,4 +6,12 @@ Ne modifie pas ce fichier à la main : il est réécrit à chaque nouveau retour
 
 🟢 parfait ou jouable · 🟡 partiel · 🟠 démarre puis plante · 🔴 ne démarre pas
 
-Aucun retour pour l'instant.
+| Jeu | Identifiant | Dernier résultat | Version du jeu | Masu | Puce et système | Retours |
+|---|---|---|---|---|---|---|
+| Super Mario Party Jamboree | `0100965017338000` | 🟢 Jouable | 1.0.0 | 1.11 | Adreno 840 · Driver Système · Android 17 | 1 |
+
+## Super Mario Party Jamboree (`0100965017338000`)
+
+| Date | Résultat | Jusqu'où | Jeu | Masu | Runtime | Puce et système | Retour |
+|---|---|---|---|---|---|---|---|
+| 2026-10-30 | 🟢 Jouable | écran titre, menus, plateau, mini-jeux | 1.0.0 | 1.11 | — | Adreno 840 · Driver Système · Android 17 | #4 |
