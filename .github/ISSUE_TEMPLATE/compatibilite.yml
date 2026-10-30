@@ -43,7 +43,7 @@ body:
     attributes:
       label: Puce et système
       description: Seulement la puce graphique, le pilote et la version d'Android ou de Windows. Pas de nom d'appareil.
-      placeholder: Adreno 740 · Turnip · Android 15
+      placeholder: Adreno 7xx - System/Turnip - Android 1x
     validations:
       required: true
   - type: dropdown
