@@ -8,6 +8,15 @@
     "retours": 1,
     "ticket": 7
   },
+  "01004AB00A260000": {
+    "jeu": "DARK SOULS™: REMASTERED",
+    "resultat": "Ne démarre pas",
+    "version_jeu": "1.0.0",
+    "version_masu": "1.16",
+    "date": "2026-11-12",
+    "retours": 1,
+    "ticket": 10
+  },
   "0100535012974000": {
     "jeu": "Hades",
     "resultat": "Ne démarre pas",
